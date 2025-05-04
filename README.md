@@ -27,6 +27,6 @@
 ## 🔧 Installation
 
 ```bash
-git clone https://github.com/username/whatsapp-fetcher.git
+git clone https://github.com/byf1sh/KAI-WA-DEV.git
 cd whatsapp-fetcher
 pip install -r requirements.txt
