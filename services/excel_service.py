@@ -1,4 +1,5 @@
 import requests
+from services.data_utils import extract_field
 
 def add_to_excel_backup(token, data):
     access_token = token
@@ -35,8 +36,10 @@ def add_to_excel(token, data):
     values = []
     for row in data:
         # Pastikan urutan kolom sesuai dengan urutan kolom di Excel
+        case_id = extract_field("Case ID", row["message"])
         values.append([
             row.get("timestamp", ""),
+            case_id,
             row.get("message", "")  # hilangkan newline jika ada
         ])
 
