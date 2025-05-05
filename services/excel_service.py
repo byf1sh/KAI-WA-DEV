@@ -32,22 +32,25 @@ def add_to_excel(token, data):
         "Content-Type": "application/json"
     }
 
-    # Ubah list of dict jadi list of list
     values = []
     for row in data:
-        # Pastikan urutan kolom sesuai dengan urutan kolom di Excel
-        case_id = extract_field("Case ID", row["message"])
-        values.append([
-            row.get("timestamp", ""),
-            case_id,
-            row.get("message", "")  # hilangkan newline jika ada
-        ])
+        if "[Automation]" in row["message"]:
+            print("Automation Detected not sending to xlsx")
+        elif "NOC KAI" in row["message"]:
+            print("Message from noc not sending to xlsx")
+        else:
+            case_id = extract_field("Case ID", row["message"])
+            values.append([
+                row.get("timestamp", ""),
+                case_id,
+                row.get("message", "")  # hilangkan newline jika ada
+            ])
 
-    payload = {"values": values}
-    
-    response = requests.post(url, headers=headers, json=payload)
+        payload = {"values": values}
+        
+        response = requests.post(url, headers=headers, json=payload)
 
-    if response.status_code == 201:
-        print("✅ Data berhasil ditambahkan.")
-    else:
-        print("❌ Gagal:", response.status_code, response.text)
+        if response.status_code == 201:
+            print("✅ Data berhasil ditambahkan.")
+        else:
+            print("❌ Gagal:", response.status_code, response.text)
